@@ -1,0 +1,148 @@
+Ciência de Dados
+==========================================
+
+Objetivo:
+Construir um sistema de aprovação de empréstimo
+===========================================
+
+Preparando o ambiente de desenvolvimento
+
+1 - Abrir uma maquina virtual do google:
+colab.research.google.com
+
+2 - Fazer o upload do script
+
+3 - conectar com a maquina virtual do google
+
+4 - Fazer o upload da tabela que vai ser utilizada
+
+===========================================
+
+Etapas de desenvolvimento 
+
+1 - Entender o problema de negócio
+
+	Construir um Sistema de Aprovação de Empréstimos com Machine Learning e Programação Python, detalhando cada etapa do processo de construção da sua Máquina Preditiva.
+	
+	Levantar as variaveis mais importantes
+	
+2 - Importar os pacotes Python
+
+	pacote de manipulação de dados - pandas
+	
+	pacotes de gráficos - seaborn
+	
+	pacote de aviso - warnings
+	
+3 - Importar os dados
+
+	importar a partir do caminho do arquivo
+	
+4 - Verificar as dimensões dos dados
+	
+	função - .shape
+	retorna
+	(linhas, colunas)
+	
+5 - Verificar os primeiros registros
+
+	função - .head
+	
+	tarket - variavel utilizada para realizar a operação principal ( aprovar ou não o crédito)
+	
+6 - Verificar as informações dos campos da tabela de dados
+
+	função - .info()
+
+7 - Verificar se há valores Nulos/ausentes e somar
+
+	função. .isnull().sum()
+
+8 - Verificar se há linhas duplicadas e somar
+
+	função - .duplicated().sum()
+
+==========================================
+
+Conhecendo a Distribuição dos Dados de Cada Variável/Campo
+
+
+1 - Estatísticas descritivas das variáveis numéricas
+	função - .describe()
+
+2 - Tabela de Frequência da Variável "aprovacao_emprestimo" - Nossa Classe ou Label ou Target ou Y ou Variável a ser Predita (o que a gente quer descobrir)
+
+	função - .aprovacao_emprestimo.value_counts()
+	
+3 - Criando Gráfico de Barras para variáveis Categóricas
+
+	{lembrando que sns é como ficou nomeado o pacote seaborn}sns.countplot(clientes['aprovacao_emprestimo'])
+	
+4 - Criando Gráfico de Barras para variáveis Categóricas
+
+	sns.countplot(clientes['historico_credito'])
+	
+	sns.countplot(clientes['educacao'])
+	
+	sns.countplot(clientes['sexo'])
+	
+	sns.countplot(clientes['imovel'])
+	
+	sns.countplot(clientes['educacao'])
+	
+	sns.countplot(clientes['dependentes'])
+	
+	sns.countplot(clientes['estado_civil'])
+	
+	sns.countplot(clientes['empregado'])
+	
+5 - Criando Gráfico de Distribuição para variáveis contínuas
+	
+	sns.histplot(clientes['renda'], bins=50, kde=True)
+	
+6 - Distribuição dos dados BOXPLOT
+
+	função - .boxplot(column='emprestimo', vert=False )
+	
+7 - Criando Gráfico de Distribuição para variáveis contínuas
+
+	sns.histplot(clientes['emprestimo'], bins=50, kde=True)
+	
+8 - Correlação entre as Variáveis
+
+	sns.scatterplot(data=clientes, x="emprestimo", y="renda", ) #hue='aprovacao_emprestimo')
+	
+	hue - separa a aprovação e negação de emprestimos
+	
+9 - Criação do Gráfico de dispersão (scatter) conhecido como pairplot - varios graficos
+
+	sns.pairplot(clientes, hue='aprovacao_emprestimo') # kind=reg é a reta de regressão
+	
+====================================================
+
+Pré-Processamento dos Dados
+
+1 - Substituindo caracteres por números
+
+	clientes['sexo']= clientes['sexo'].map({'Male':0, 'Female':1})
+	clientes['estado_civil']= clientes['estado_civil'].map({'No':0, 'Yes':1})
+	clientes['aprovacao_emprestimo']= clientes['aprovacao_emprestimo'].map({'N':0, 'Y':1})
+	
+2 - Eliminando valores Nulos
+
+	clientes = clientes.dropna()
+	clientes.isnull().sum()
+	
+3 - Separando variáveis Explicativas e Variável TARGET
+
+	X = clientes[['sexo', 'estado_civil', 'renda', 'emprestimo', 'historico_credito']]
+	y = clientes.aprovacao_emprestimo
+	X.shape, y.shape
+	
+4 - importando Pacote para Amostragem dos Dados
+
+	from sklearn.model_selection import train_test_split
+	
+5 - Realizando Amostragem dosa Dados
+
+	x_train, x_teste, y_train, y_teste = train_test_split(X,y, test_size = 0.2, random_state = 7)
